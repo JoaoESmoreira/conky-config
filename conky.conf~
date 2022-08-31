@@ -1,0 +1,135 @@
+-- Conky, a system monitor https://github.com/brndnmtthws/conky
+--
+-- This configuration file is Lua code. You can write code in here, and it will
+-- execute when Conky loads. You can use it to generate your own advanced
+-- configurations.
+--
+-- Try this (remove the `--`):
+--
+--   print("Loading Conky config")
+--
+-- For more on Lua, see:
+-- https://www.lua.org/pil/contents.html
+
+conky.config = {
+
+-- Size and Position Settings
+    alignment = 'top_right',
+    gap_x = 10,
+    gap_y = 50,
+    minimum_height = 1020,
+    minimum_width = 5,
+
+-- Text settings
+    use_xft = true,
+    font = 'DejaVu Sans Mono:size=12',
+
+-- Color Settings
+    default_color = 'white',
+    default_outline_color = 'white',
+    default_shade_color = 'white',
+
+-- Window Settings
+    background = false,
+    border_width = 1,
+    draw_borders = false,
+    draw_graph_borders = true,
+    draw_outline = false,
+    draw_shades = false,
+    own_window = true,
+    own_window_class = 'Conky',
+    own_window_type = 'desktop',
+    own_window_argb_visual = true,
+    own_window_argb_value = 120,
+    own_window_colour = '000000',
+    stippled_borders = 0,
+
+-- Fonts
+   font_title = 'Roboto',
+
+-- Others
+    cpu_avg_samples = 2,
+    net_avg_samples = 2,
+    double_buffer = true,
+    extra_newline = false,
+    no_buffers = true,
+    update_interval = 1.0,
+    uppercase = false,
+    use_spacer = 'none',
+    out_to_console = false,
+    out_to_ncurses = false,
+    out_to_stderr = false,
+    out_to_x = true,
+    show_graph_range = false,
+    show_graph_scale = false,
+}
+
+conky.text = [[
+# -----------------------------------------------------------------------------------------------------------------------------------------
+#								TIME
+# -----------------------------------------------------------------------------------------------------------------------------------------
+${font Digital Readout Thick Upright:size=30} ${alignc} ${goto 70} ${time %H:%M} ${font}
+${color grey} ${font GE Inspira:size=12} ${alignc} ${goto 78} ${time %A} ${time %B} ${time %e}, ${time %Y}${font}${color}
+${voffset -35} ${alignc} ${image ./imagens/tux.png -p 0,0 -s 60x60}
+
+
+# -----------------------------------------------------------------------------------------------------------------------------------------
+#								PROCESSES
+# -----------------------------------------------------------------------------------------------------------------------------------------
+${color }${font font_title:size=15}${voffset 2}P R O C E S S E S   ${hr 2}${font}${color}
+${color grey}Name                PID     CPU%   MEM%
+${color } ${top name 1} ${top pid 1} ${top cpu 1} ${top mem 1}
+${color } ${top name 2} ${top pid 2} ${top cpu 2} ${top mem 2}
+${color } ${top name 3} ${top pid 3} ${top cpu 3} ${top mem 3}
+${color } ${top name 4} ${top pid 4} ${top cpu 4} ${top mem 4}
+${color } ${top name 5} ${top pid 5} ${top cpu 5} ${top mem 5}
+${color } ${top name 6} ${top pid 6} ${top cpu 6} ${top mem 6}
+${color } ${top name 7} ${top pid 7} ${top cpu 7} ${top mem 7}
+${color } ${top name 8} ${top pid 8} ${top cpu 8} ${top mem 8} ${voffset 7}
+${color grey}Processes:$color $processes
+${color grey}Running:$color $running_processes
+
+
+# -----------------------------------------------------------------------------------------------------------------------------------------
+#								USAGE
+# -----------------------------------------------------------------------------------------------------------------------------------------
+${color }${font font_title:size=15}${voffset 2}U S A G E   ${hr 2}${font}${color}
+${color grey} CPU: ${color} $cpu% ${offset 20}${cpubar}
+${color grey} RAM: ${color} $memperc% ${offset 10}${membar} 
+${color grey} Disk: $color${fs_used_perc}% ${offset 10}${fs_bar}
+${color grey} Swap: ${color} $swapperc% ${offset 10}${swapbar}
+
+
+# -----------------------------------------------------------------------------------------------------------------------------------------
+#								SYSTEM
+# -----------------------------------------------------------------------------------------------------------------------------------------
+${color }${font font_title:size=15}${voffset 2}S Y S T E M   ${hr 2}${font}${color}
+${color grey} Hostname: $color${alignr}${nodename}
+${color grey} OS: $color${alignr}${exec cat /etc/issue}${color grey} Machine:$color${alignr}${machine}
+${color grey} Kernel: $color${alignr}${kernel}
+${color grey} Uptime: $color ${alignr}${uptime}
+
+
+# -----------------------------------------------------------------------------------------------------------------------------------------
+#								NETWORK
+# -----------------------------------------------------------------------------------------------------------------------------------------
+${color }${font font_title:size=15}${voffset 2}N E T W O R K   ${hr 2}${font}${color}
+#${color2}${offset 30}IP Address: ${color} ${alignr}${offset -10$}${addrs wlp0s20f3}
+${color grey}${offset 30}Eth Up:${color} ${alignr}${offset -10$}${upspeed wlp0s20f3}${alignr}${upspeedgraph wlp0s20f3 8,100}
+${color grey}${offset 30}Eth Down:${color} ${alignr}${offset -10$}${downspeed wlp0s20f3}${alignr}${downspeedgraph wlp0s20f3 8,100}
+
+
+# -----------------------------------------------------------------------------------------------------------------------------------------
+#								NETWORK
+# -----------------------------------------------------------------------------------------------------------------------------------------
+${color }${font font_title:size=15}${voffset 2}W E A T H E R   ${hr 2}${font}${color}
+#${execi 300 ./weather.sh}
+#
+#${offset 15}${voffset 30}${font Economica:size=25}${execi 15 ./weather-text-icon}${goto 70}${color}${font Economica:size=25}${execi 100 cat ~/.cache/weather.json | jq '.main.temp' | awk '{print int($1+0.5)}'}°C
+#${alignr 15}${voffset -55}${color}${font Economica:size=10}${execi 100 cat ~/.cache/weather.json | jq -r '.name'}
+#${alignr 15}${voffset 0}${color}${font Economica:size=10}${execi 100 cat ~/.cache/weather.json | jq -r '.weather[0].description' | sed "s|\<.|\U&|g"}
+${font Dejavu Sans Mono:size=12}${alignc}${color }${execpi 300 curl wttr.in/penafiel?T0 --silent --max-time 3}${font ubuntu:size=10.5}
+#${font Dejavu Sans Mono:size=12}${alignc}${color }${execpi 300 curl wttr.in/?T0 --silent --max-time 3}${font ubuntu:size=10.5}
+
+
+]]
